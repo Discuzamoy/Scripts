@@ -1,5 +1,3 @@
-# 后期脚本会逐步进行加密后发布(原因:部分人偷盗脚本,然后进行改脚本内置邀请码后再次宣传修改后的)
-
 ## 特别声明: 
 
 * 本仓库发布的Script项目中涉及的任何解锁和解密分析脚本，仅用于测试和学习研究，禁止用于商业用途，不能保证其合法性，准确性，完整性和有效性，请根据情况自行判断.
@@ -134,13 +132,6 @@
 - Loon：Task&Cookies脚本订阅链接: [lxk0301_LoonTask.conf](https://gitee.com/lxk0301/jd_scripts/raw/master/Loon/lxk0301_LoonTask.conf)
 
 - QuantumultX Task脚本订阅链接: [lxk0301_gallery.json](https://gitee.com/lxk0301/jd_scripts/raw/master/QuantumultX/lxk0301_gallery.json)，cookie(重写)订阅链接: [lxk0301_cookies.conf](https://gitee.com/lxk0301/jd_scripts/raw/master/QuantumultX/lxk0301_cookies.conf)
-
-## 通知频道 [https://t.me/jdfruit](https://t.me/jdfruit)
-
-## 赞赏码(开发维护不易,请赏杯茶水费)
-
-<div align=center><img width="250" height="250" src="./icon/thanks.jpg"/></div>
-
 
 ## 特别感谢(排名不分先后)：
 
