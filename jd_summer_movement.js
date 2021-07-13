@@ -22,13 +22,20 @@ if ($.isNode() && process.env.summer_movement_joinjoinjoinhui) {
   summer_movement_joinjoinjoinhui = process.env.summer_movement_joinjoinjoinhui;
 }
 
+// 百元守卫战SH
 let summer_movement_ShHelpFlag = 1;// 0不开启也不助力 1开启并助力 2开启但不助力
 if ($.isNode() && process.env.summer_movement_ShHelpFlag) {
   summer_movement_ShHelpFlag = process.env.summer_movement_ShHelpFlag;
 }
 
+// 邀请助力
+let summer_movement_HelpHelpHelpFlag = false;// 是否只执行邀请助力  true 是，false 不是
+if ($.isNode() && process.env.summer_movement_HelpHelpHelpFlag) {
+  summer_movement_HelpHelpHelpFlag = process.env.summer_movement_HelpHelpHelpFlag;
+}
 
-const ShHelpAuthorFlag = false;//是否助力作者SH  true 助力，false 不助力
+
+const ShHelpAuthorFlag = true;//是否助力作者SH  true 助力，false 不助力
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [];
 $.cookie = '';
@@ -36,7 +43,9 @@ $.inviteList = [];
 $.secretpInfo = {};
 $.ShInviteList = [];
 $.innerShInviteList = [
-  ''
+  'H8mphLbwLgz3e4GeFdc0g9GS9KyvaS3S',
+  'H8mphLbwLn_LHtvAULB0thOUapqKwhU',
+  'H8mphLbwLnPnJ8L9XqdUv7O1wfsqrXQ'
 ];
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -64,9 +73,10 @@ const UA = $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT :
       '新增 微信任务\n' +
       '移除百元守卫战 请到help食用\n' +
       '活动时间：2021-07-08至2021-08-08\n' +
-      '脚本更新时间：2021年7月10日 10点00分\n'
+      '脚本更新时间：2021年7月10日 23点00分\n'
       );
-      if(`${summer_movement_joinjoinjoinhui}` === "true") console.log('您设置了入会')
+      if(`${summer_movement_joinjoinjoinhui}` === "true") console.log('您设置了入会\n')
+      if(`${summer_movement_HelpHelpHelpFlag}` === "true") console.log('您设置了只执行邀请助力\n')
       if(Number(summer_movement_ShHelpFlag) === 1){
         console.log('您设置了 【百元守卫战SH】✅ || 互助✅')
       }else if(Number(summer_movement_ShHelpFlag) === 2){
@@ -140,6 +150,16 @@ async function movement() {
     await takePostRequest('olympicgames_home');
     if($.homeData.result) $.userInfo = $.homeData.result.userActBaseInfo
     if($.userInfo){
+      if($.homeData.result.popWindows) {
+        let res = $.homeData.result.popWindows
+        if(res.type == 'continued_sign_pop'){
+          console.log(`签到获得: ${JSON.stringify($.homeData.result.popWindows.data || '')}`)
+        }else if(res.type == 'limited_time_hundred_pop'){
+          console.log(`百元守卫战: ${JSON.stringify($.homeData.result.popWindows || '')}`)
+        }else{
+          console.log(`弹窗信息: ${JSON.stringify($.homeData.result.popWindows)}`)
+        }
+      }
       // console.log(JSON.stringify($.homeData.result.trainingInfo))
       console.log(`\n签到${$.homeData.result.continuedSignDays}天 待兑换金额：${Number($.userInfo.poolMoney)} 当前等级:${$.userInfo.medalLevel}  ${$.userInfo.poolCurrency}/${$.userInfo.exchangeThreshold}(攒卡领${Number($.userInfo.cash)}元)\n`);
       await $.wait(1000);
@@ -188,6 +208,7 @@ async function movement() {
     
     console.log(`\n做任务\n`);
     await takePostRequest('olympicgames_getTaskDetail');
+    if(`${summer_movement_HelpHelpHelpFlag}` === "true") return
     await $.wait(1000);
     //做任务
     for (let i = 0; i < $.taskList.length && !$.hotFlag; i++) {
