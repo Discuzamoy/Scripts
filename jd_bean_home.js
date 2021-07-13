@@ -2,23 +2,23 @@
 领京豆额外奖励&抢京豆
 脚本自带助力码，介意者可将 29行 helpAuthor 变量设置为 false
 活动入口：京东APP首页-领京豆
-更新地址：jd_bean_home.js
+更新地址：https://gitee.com/lxk0301/jd_scripts/raw/master/jd_bean_home.js
 已支持IOS双京东账号, Node.js支持N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, 小火箭，JSBox, Node.js
 ============Quantumultx===============
 [task_local]
 #领京豆额外奖励
-10 7 * * * jd_bean_home.js, tag=领京豆额外奖励, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_bean_home.png, enabled=true
+10 7 * * * https://gitee.com/lxk0301/jd_scripts/raw/master/jd_bean_home.js, tag=领京豆额外奖励, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_bean_home.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "10 7 * * *" script-path=jd_bean_home.js, tag=领京豆额外奖励
+cron "10 7 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_bean_home.js, tag=领京豆额外奖励
 
 ===============Surge=================
-领京豆额外奖励 = type=cron,cronexp="10 7 * * *",wake-system=1,timeout=3600,script-path=jd_bean_home.js
+领京豆额外奖励 = type=cron,cronexp="10 7 * * *",wake-system=1,timeout=3600,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_bean_home.js
 
 ============小火箭=========
-领京豆额外奖励 = type=cron,script-path=jd_bean_home.js, cronexpr="10 7 * * *", timeout=3600, enable=true
+领京豆额外奖励 = type=cron,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_bean_home.js, cronexpr="10 7 * * *", timeout=3600, enable=true
  */
 const $ = new Env('领京豆额外奖励');
 
@@ -26,7 +26,7 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送
-const helpAuthor = false; // 是否帮助作者助力，false打开通知推送，true关闭通知推送
+const helpAuthor = true; // 是否帮助作者助力，false打开通知推送，true关闭通知推送
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
 if ($.isNode()) {
@@ -69,38 +69,30 @@ const JD_API_HOST = 'https://api.m.jd.com/';
     }
   }
   // for (let i = 0; i < cookiesArr.length; i++) {
-  //   $.index = i + 1;
   //   if (cookiesArr[i]) {
   //     $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+  //     console.log(`${$.UserName}去帮助下一个人`)
   //     cookie = cookiesArr[i];
   //     if ($.newShareCodes.length > 1) {
-  //       console.log(`\n【抢京豆】 ${$.UserName} 去助力排名第一的cookie`);
-  //       // let code = $.newShareCodes[(i + 1) % $.newShareCodes.length]
-  //       // await help(code[0], code[1])
-  //       let code = $.newShareCodes[0];
-  //       await help(code[0], code[1]);
+  //       let code = $.newShareCodes[(i + 1) % $.newShareCodes.length]
+  //       await help(code[0], code[1])
   //     }
   //     if (helpAuthor && $.authorCode) {
-  //       console.log(`\n【抢京豆】${$.UserName} 去帮助作者`)
-  //       for (let code of $.authorCode) {
-  //         const helpRes = await help(code.shareCode, code.groupCode);
-  //         if (helpRes && helpRes.data.respCode === 'SG209') {
-  //           break;
-  //         }
+  //       console.log(`去帮助作者`)
+  //       const helpRes = await help($.authorCode[0], $.authorCode[1])
+  //       if (helpRes && helpRes.data.respCode === 'SG209') {
+  //         console.log(`助力次数已耗尽，跳出助力`)
+  //         break;
   //       }
   //     }
   //     if (helpAuthor && $.authorCode2) {
   //       for (let code of $.authorCode2) {
   //         const helpRes = await help(code.shareCode, code.groupCode);
   //         if (helpRes && helpRes.data.respCode === 'SG209') {
+  //           console.log(`助力次数已耗尽，跳出助力`)
   //           break;
   //         }
   //       }
-  //     }
-  //     for (let j = 1; j < $.newShareCodes.length; j++) {
-  //       console.log(`【抢京豆】${$.UserName} 去助力账号 ${j + 1}`)
-  //       let code = $.newShareCodes[j];
-  //       await help(code[0], code[1])
   //     }
   //   }
   // }
@@ -173,13 +165,13 @@ function doTask2() {
 
 function getAuthorShareCode() {
   return new Promise(resolve => {
-    $.get({url: "",headers:{
+    $.get({url: "https://gitee.com/shylocks/updateTeam/raw/main/jd_bean_home",headers:{
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
       }}, async (err, resp, data) => {
       try {
         if (err) {
         } else {
-          $.authorCode = JSON.parse(data);
+          $.authorCode = data.replace('\n', '').split(' ')
         }
       } catch (e) {
         $.logErr(e, resp)
@@ -191,7 +183,7 @@ function getAuthorShareCode() {
 }
 function getAuthorShareCode2() {
   return new Promise(resolve => {
-    $.get({url: "",headers:{
+    $.get({url: "https://cdn.jsdelivr.net/gh/gitupdate/updateTeam@master/shareCodes/jd_updateBeanHome.json",headers:{
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
       }}, async (err, resp, data) => {
       try {
@@ -228,10 +220,9 @@ function getUserInfo() {
               } else {
                 console.log(shareCode, groupCode)
                 // 去做逛会场任务
-                if (data.data.beanActivityVisitVenue && data.data.beanActivityVisitVenue.taskStatus === '0') {
+                if (data.data.beanActivityVisitVenue.taskStatus === '0') {
                   await help(shareCode, groupCode, 1)
                 }
-                console.log(`\n京东账号${$.index} ${$.nickName || $.UserName} 抢京豆邀请码：${shareCode}\n`);
                 $.newShareCodes.push([shareCode, groupCode])
               }
             }
@@ -262,7 +253,6 @@ function hitGroup() {
               if (shareCode) {
                 $.newShareCodes.push([shareCode, groupCode])
                 console.log('开团成功')
-                console.log(`\n京东账号${$.index} ${$.nickName || $.UserName} 抢京豆邀请码：${shareCode}\n`);
                 await help(shareCode, groupCode, 1)
               } else {
                 console.log(`为获取到助力码，错误信息${JSON.stringify(data.data)}`)
